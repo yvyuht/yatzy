@@ -1,124 +1,404 @@
 body {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 700px;
+    margin: 30px;
     background-color: #cfdffc;
 }
 
+#dice-container {
+    display: flex;
+    margin:auto;
+    padding-right: 50px;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.left-container  {
+    text-align: center;
+    
+}
+
 .dice {
-    width: 80px;
-    height: 80px;
-    border: 3px solid #fff;
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f7a7a7;
+    cursor: pointer;
+    user-select: none;
     border-radius: 10%;
-    font-weight: bold;
+    display: inline-block;
+    background-image: url('dice.png'); 
+    background-size: 600% 100%;
 }
 
 .dot {
+    position: absolute;
     width: 15px;
     height: 15px;
-    margin: 8%;
-    border-radius: 50%;
     background-color: #fff;
-    align-content: center;
-}
-
-.first-face {
-    background-color: #ee6868;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.second-face {
-    background-color: #ee6868;
-    display: flex;
-    justify-content: space-between;
-}
-
-.second-face .dot:nth-of-type(2){
-    align-self: flex-end;
-    
-}
-
-.third-face {
-    background-color: #ee6868;
-    display: flex;
-    justify-content: space-between;
+    border-radius: 50%;
 }
 
 
-.third-face .dot:nth-of-type(3){
-    align-self: flex-end;
+button {
+    display: inline-flex;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #668ddb;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    border-radius: 12px;
+    text-align: center;
 }
 
-.third-face .dot:nth-of-type(1){
-    align-self: flex-start;
+button:hover {
+    background-color: #fdff93;
+    color: #000;
 }
 
-.third-face .dot:nth-of-type(2){
-    align-self: center;
-}
-
-.fourth-face {
-    background-color: #ee6868;
-    display: flex;
-    justify-content: space-between;
-}
-
-.fourth-face .column {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin: 10%;
-}
-
-.fifth-face {
-    background-color: #ee6868;
-    display: flex;
-    justify-content: space-between;
-    
-}
-
-.fifth-face .column {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin: 6%;
-}
-
-.fifth-face .column:nth-of-type(2) {
-    justify-content: center;
-}
-
-.sixth-face {
-    background-color: #ee6868;
-    display: flex;
-    justify-content: space-between;
-}
-
-.sixth-face .column {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin: 10%;
-}
-
-.flex-container {
-    display: flex;
-}
-
-.flex-container > div {
-    margin: 10px;
+@keyframes roll {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(90deg); }
+    50% { transform: rotate(180deg); }
+    75% { transform: rotate(270deg); }
 }
 
 .big-container {
     display: flex;
 }
 
-.big-container .score:nth-of-type(2){
-    margin: 70px;
+.score {
+    padding-right: 50px;
+}
+
+.selected {
+    border: 2px solid black;
+    background-color: #bb2323;
+    
+}
+
+.presentScore.clicked {
+    background-color: #cf4040; /* Change background color to visually indicate selected score */
+    pointer-events: none;  
+    
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: rgb(255, 244, 185);
+    margin: 5% auto;
+    padding: 20px;
+    border: 3px solid #1f1111;
+    width: 80%;
+    text-align: center;
+}
+
+.close {
+    color: #161010;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#ruleButton {
+    cursor: pointer;
+    background-color: #1a3467;
+    color: rgb(250, 234, 234);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: inline-flex;
+}
+
+#ruleInfo {
+    display: none;
+    background-color: #e0876a; 
+    padding: 10px;
+    width: 500px;
+    border-radius: 15px;
+    position: absolute;
+    z-index: 999; /* Set a higher z-index value */
+    animation: fadeInOut 0.5s ease-in-out; /* Optional: Add a fade-in and fade-out animation */
+}
+
+.score-explanation#ones-explanation {
+    display: none;
+    background-color: #fdce97e3;
+    padding: 10px;
+    border-radius: 15px;
+    width: 200px;
+    position: absolute;
+    top: 170px;
+    left: 400px;
+    z-index: 999; /* Set a higher z-index value */
+    animation: fadeInOut 0.5s ease-in-out; /* Optional: Add a fade-in and fade-out animation */
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.score-explanation#twos-explanation {
+    display: none;
+    background-color: #fdce97e3;
+    padding: 10px;
+    border-radius: 15px;
+    width: 200px;
+    position: absolute;
+    top: 200px;
+    left: 400px;
+    z-index: 999; /* Set a higher z-index value */
+    animation: fadeInOut 0.5s ease-in-out; /* Optional: Add a fade-in and fade-out animation */
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
 }
 
 
+.score-explanation#threes-explanation {
+    display: none;
+    background-color: #fdce97e3;
+    padding: 10px;
+    border-radius: 15px;
+    width: 200px;
+    position: absolute;
+    top: 240px;
+    left: 400px;
+    z-index: 999; /* Set a higher z-index value */
+    animation: fadeInOut 0.5s ease-in-out; /* Optional: Add a fade-in and fade-out animation */
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
 
 
+.score-explanation#fours-explanation {
+    display: none;
+    background-color: #fdce97e3;
+    padding: 10px;
+    border-radius: 15px;
+    width: 200px;
+    position: absolute;
+    top: 280px;
+    left: 400px;
+    z-index: 999; /* Set a higher z-index value */
+    animation: fadeInOut 0.5s ease-in-out; /* Optional: Add a fade-in and fade-out animation */
+}
 
-  
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+
+.score-explanation#fives-explanation {
+    display: none;
+    background-color: #fdce97e3;
+    padding: 10px;
+    border-radius: 15px;
+    width: 200px;
+    position: absolute;
+    top: 310px;
+    left: 400px;
+    z-index: 999; /* Set a higher z-index value */
+    animation: fadeInOut 0.5s ease-in-out; /* Optional: Add a fade-in and fade-out animation */
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.score-explanation#sixes-explanation {
+    display: none;
+    background-color: #fdce97e3;
+    padding: 10px;
+    border-radius: 15px;
+    width: 200px;
+    position: absolute;
+    top: 350px;
+    left: 400px;
+    z-index: 999; /* Set a higher z-index value */
+    animation: fadeInOut 0.5s ease-in-out; /* Optional: Add a fade-in and fade-out animation */
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+
+.score-explanation#toaks-explanation {
+    display: none;
+    background-color: #fdce97e3;
+    padding: 10px;
+    border-radius: 15px;
+    width: 300px;
+    position: absolute;
+    top: 160px; /* Adjust the top position as needed */
+    left: 600px;
+    z-index: 999; /* Set a higher z-index value */
+    animation: fadeInOut 0.5s ease-in-out; /* Optional: Add a fade-in and fade-out animation */
+}
+
+/* Reuse the same keyframes for the fade animation */
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.score-explanation#foaks-explanation {
+    display: none;
+    background-color: #fdce97e3;
+    padding: 10px;
+    border-radius: 15px;
+    width: 300px;
+    position: absolute;
+    top: 200px;
+    left: 600px;
+    z-index: 999; /* Set a higher z-index value */
+    animation: fadeInOut 0.5s ease-in-out; /* Optional: Add a fade-in and fade-out animation */
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.score-explanation#fh-explanation {
+    display: none;
+    background-color: #fdce97e3;
+    padding: 10px;
+    border-radius: 15px;
+    width: 240px;
+    position: absolute;
+    top: 240px;
+    left: 660px;
+    z-index: 999; /* Set a higher z-index value */
+    animation: fadeInOut 0.5s ease-in-out; /* Optional: Add a fade-in and fade-out animation */
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.score-explanation#st-explanation {
+    display: none;
+    background-color: #fdce97e3;
+    padding: 10px;
+    border-radius: 15px;
+    width: 200px;
+    position: absolute;
+    top: 288px;
+    left: 700px;
+    z-index: 999; /* Set a higher z-index value */
+    animation: fadeInOut 0.5s ease-in-out; /* Optional: Add a fade-in and fade-out animation */
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.score-explanation#lt-explanation {
+    display: none;
+    background-color: #fdce97e3;
+    padding: 10px;
+    border-radius: 15px;
+    width: 200px;
+    position: absolute;
+    top: 328px;
+    left: 700px;
+    z-index: 999; /* Set a higher z-index value */
+    animation: fadeInOut 0.5s ease-in-out; /* Optional: Add a fade-in and fade-out animation */
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.score-explanation#c-explanation {
+    display: none;
+    background-color: #fdce97e3;
+    padding: 10px;
+    border-radius: 15px;
+    width: 200px;
+    position: absolute;
+    top: 360px;
+    left: 700px;
+    z-index: 999; /* Set a higher z-index value */
+    animation: fadeInOut 0.5s ease-in-out; /* Optional: Add a fade-in and fade-out animation */
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.score-explanation#yt-explanation {
+    display: none;
+    background-color: #fdce97e3;
+    padding: 10px;
+    border-radius: 15px;
+    width: 200px;
+    position: absolute;
+    top: 400px;
+    left: 700px;
+    z-index: 999; /* Set a higher z-index value */
+    animation: fadeInOut 0.5s ease-in-out; /* Optional: Add a fade-in and fade-out animation */
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
